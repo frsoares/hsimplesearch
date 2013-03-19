@@ -46,11 +46,11 @@ parseArgs = do
         (_, _, errs)             -> die errs
       where
         parse argv = getOpt Permute options argv
-        header     = "Usage: searchengine [-h] [-i n] [-q n] folder"
+        header     = "Usage: hsimplesearch [-h] [-i n] [-q n] folder"
         info       = usageInfo header options
         dump       = hPutStrLn stderr
         die errs   = dump (concat errs ++ info) >> exitWith (ExitFailure 1)
-        help       = dump info                  >> exitWith ExitSuccess
+        help       = dump info                  >> exitSuccess
 
 
 options :: [OptDescr Flag]
@@ -77,9 +77,7 @@ findFile indexed = do
         putStr "query> "
         hFlush stdout
         query <- getLine
-        if query `elem` [":q", ":quit"] then
-           return ()
-        else do 
+        unless (query `elem` [":q", ":quit"]) $ do 
             clockTimeBegin <- getClockTime
             let result = interpretQuery query indexed
             clockTimeEnd    <- getClockTime
@@ -88,7 +86,7 @@ findFile indexed = do
             putStrLn "====================================================="
             putStrLn $ "Total amount of matching files: "++show (length result)
             putStrLn "====================================================="
-            putStrLn $ "Time required for query: "++show ((tdPicosec timeDiff) `div` 1000)++" nanoseconds."
+            putStrLn $ "Time required for query: "++show (tdPicosec timeDiff `div` 1000)++" nanoseconds."
             putStrLn "====================================================="
             findFile indexed
 

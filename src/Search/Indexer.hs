@@ -82,4 +82,4 @@ toMap2 = map messInside
 
 -- | assuming the first elements are all equal
 messInside ::  [(a,[b])] -> (a, [b])
-messInside complicatedMap = ((fst.head) complicatedMap, concat $ map snd complicatedMap)
+messInside complicatedMap = ((fst.head) complicatedMap, concatMap snd complicatedMap)

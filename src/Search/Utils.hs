@@ -30,3 +30,14 @@ eqFst :: Eq a => (a, b) -> (a, c) -> Bool
 eqFst (a, _) (b, _) = a == b
 
 
+-- | Decreasingly sorts tuples according to the second element, then the first.
+decreasingSort :: (Ord a, Ord o) => (a, o) -> (a, o) -> Ordering
+decreasingSort (s1, x1) (s2, x2)
+        | x1 > x2   = LT
+        | x1 < x2   = GT
+        | otherwise =
+            if s1 > s2 then GT
+            else
+                if s1 < s2 then LT
+                else EQ
+

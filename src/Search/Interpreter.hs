@@ -27,7 +27,6 @@ import Search.Utils
 --import Debug.Trace (trace)
 
 
--- == Query interpretation ==
 
 -- | Receives a query String, interprets it according to the query criteria, and executes it.
 --interpretQuery :: String -> [(String, [(String, [Integer])])] -> [(String, Integer)]
