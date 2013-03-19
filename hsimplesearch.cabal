@@ -1,0 +1,32 @@
+name: searchengine
+version: 0.0.1
+cabal-version: >=1.2
+build-type: Simple
+license: GPL-2
+license-file: ./LICENSE
+copyright: Francisco Soares
+maintainer: Francisco Soares
+stability: experimental
+homepage: http://github.com/frsoares/hsimplesearch
+synopsis: A simple desktop search engine coded in Haskell.
+description: Search text files according to 4th assignment for the PLC class at CIn/UFPE, 2012.2*.
+             .
+             * http://www.cin.ufpe.br/~if686
+category: Search Engine
+author: Francisco Soares
+data-dir: ""
+ 
+executable hsimplesearch
+    build-depends: QuickCheck -any, base -any, directory -any, old-time -any
+    main-is: Main.hs
+    buildable: True
+    hs-source-dirs: src
+    other-modules: Search.Indexer Search.Interpreter Search.Query Search.Utils 
+ 
+test-suite test-searchengine
+    build-depends: QuickCheck -any, base -any, directory -any, old-time -any
+    type: exitcode-stdio-1.0
+    main-is: Main.hs
+    buildable: True
+    cpp-options: -DMAIN_FUNCTION=testMain
+    hs-source-dirs: src
