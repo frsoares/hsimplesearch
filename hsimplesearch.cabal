@@ -17,16 +17,22 @@ author: Francisco Soares
 data-dir: ""
  
 executable hsimplesearch
-    build-depends: QuickCheck -any, base -any, directory -any, old-time -any
+    build-depends: QuickCheck -any, base -any, directory -any,
+                   old-time -any
     main-is: Main.hs
     buildable: True
     hs-source-dirs: src
-    other-modules: Search.Indexer Search.Interpreter Search.Query Search.Utils 
+    other-modules: Search.Query Search.Indexer Search.Interpreter
+                   Search.Utils
+    ghc-options: -rtsopts
  
 test-suite test-searchengine
-    build-depends: QuickCheck -any, base -any, directory -any, old-time -any
+    build-depends: QuickCheck -any, base -any, directory -any,
+                   old-time -any
     type: exitcode-stdio-1.0
     main-is: Main.hs
     buildable: True
     cpp-options: -DMAIN_FUNCTION=testMain
     hs-source-dirs: src
+    ghc-options: -rtsopts
+
