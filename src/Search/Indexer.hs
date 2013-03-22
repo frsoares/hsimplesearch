@@ -44,7 +44,7 @@ indexFile' filename = do
             results <- mapM indexFile realPathSubfiles
             return $! concat results
         else
-            if ".txt" `isSuffixOf` filename then do
+            if takeExtension filename == ".txt" then do
                 contents <- Prelude.readFile filename :: IO String
                 let contents' = map toLower contents
                 let splitString = breakInto contents' isDesirableChar (/='-')
