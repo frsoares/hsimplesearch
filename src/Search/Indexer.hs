@@ -15,11 +15,13 @@ module Search.Indexer (
     indexFile
 ) where
 
+import Search.Utils
+
 import System.Directory  (getDirectoryContents, doesDirectoryExist)
 import Data.Char         (isAlphaNum, toLower)
 import Data.List         (groupBy, sort, isSuffixOf)
 import qualified Control.Exception                                 as Exc
-import Search.Utils
+import System.FilePath
 
 
 -- | Front for the indexing 
@@ -28,7 +30,7 @@ indexFile filename = do
         indexed <- indexFile' filename
         let x = sort indexed
         let x' = groupBy eqFst x
-        return $ toMap2 x'
+        return $! toMap2 x'
 
 -- | Performs the actual indexing, organizing how subdirectories are recursively processed 
 -- and how text files are interpreted and indexed, all based on a root FilePath.
@@ -38,15 +40,15 @@ indexFile' filename = do
         if existence then do
             subfiles <- getDirectoryContents filename
             let cleanSubfiles = filter (not . (`elem` [".",".."])) subfiles
-            let realPathSubfiles = map (\x -> filename++"/"++ x) cleanSubfiles
+            let realPathSubfiles = map (filename </>) cleanSubfiles
             results <- mapM indexFile realPathSubfiles
-            return $ concat results
+            return $! concat results
         else
             if ".txt" `isSuffixOf` filename then do
                 contents <- Prelude.readFile filename :: IO String
                 let contents' = map toLower contents
                 let splitString = breakInto contents' isDesirableChar (/='-')
-                return $ toWordFileMap' filename $ toMap $ sort $ toPosition splitString        
+                return $! toWordFileMap' filename $ toMap $ sort $ toPosition splitString        
             else return []
 
 
