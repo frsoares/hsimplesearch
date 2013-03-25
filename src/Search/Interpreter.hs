@@ -15,6 +15,7 @@
 
 module Search.Interpreter (
    interpretQuery
+ , doInterpret
 ) where
 
 
@@ -27,6 +28,7 @@ import Search.Utils
 --import Debug.Trace (trace)
 
 
+doInterpret query indexes = return $! interpretQuery query indexes
 
 -- | Receives a query String, interprets it according to the query criteria, and executes it.
 --interpretQuery :: String -> [(String, [(String, [Integer])])] -> [(String, Integer)]

@@ -24,9 +24,10 @@ import Search.Indexer
 import Search.Interpreter
 import qualified Control.Exception as Exc
 import System.IO
-import System.Time
+import System.CPUTime
 import System.Console.GetOpt
 import System.Environment (getArgs)
+import Text.Printf
 
 
 -- == Command-line options ==
@@ -78,15 +79,19 @@ findFile indexed = do
         hFlush stdout
         query <- getLine
         unless (query `elem` [":q", ":quit"]) $ do 
-            clockTimeBegin <- getClockTime
-            let result = interpretQuery query indexed
-            clockTimeEnd    <- getClockTime
-            let timeDiff = diffClockTimes clockTimeEnd clockTimeBegin
+            start <- getCPUTime
+            result <- doInterpret query indexed
+            end   <- getCPUTime
+
+            let diff = (end - start) `div` (10^3)
+
+            let queryTime = printf "Time required for query: %d nanoseconds." diff
+
             mapM_ print $ take 50 result
             putStrLn "====================================================="
             putStrLn $ "Total amount of matching files: "++show (length result)
             putStrLn "====================================================="
-            putStrLn $ "Time required for query: "++show (tdPicosec timeDiff `div` 1000)++" nanoseconds."
+            putStrLn $ queryTime 
             putStrLn "====================================================="
             findFile indexed
 

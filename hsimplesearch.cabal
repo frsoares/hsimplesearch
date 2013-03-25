@@ -18,7 +18,7 @@ data-dir: ""
  
 executable hsimplesearch
     build-depends: QuickCheck -any, base -any, directory -any,
-                   old-time -any, filepath >= 1.2
+                   filepath >= 1.2
     main-is: Main.hs
     buildable: True
     hs-source-dirs: src
@@ -28,7 +28,7 @@ executable hsimplesearch
  
 test-suite test-searchengine
     build-depends: QuickCheck -any, base -any, directory -any,
-                   old-time -any, filepath >= 1.2
+                   filepath >= 1.2
     type: exitcode-stdio-1.0
     main-is: Main.hs
     buildable: True
